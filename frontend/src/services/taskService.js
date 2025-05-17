@@ -3,7 +3,9 @@ class TaskService {
 
   static fetchTasks = async () => {
     try {
-      const res = await fetch(this.BASE_URL);
+      const res = await fetch(this.BASE_URL, {
+        credentials: "include",
+      });
       if (!res.ok) {
         throw new Error(res.message);
       }

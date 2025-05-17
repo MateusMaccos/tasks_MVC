@@ -13,6 +13,7 @@ class TaskController {
     const task = await TaskModel.create(title);
     res.status(201).json(task);
   }
+
   async update(req, res) {
     const { done } = req.body;
     const task = await TaskModel.update(req.params.id, done);
