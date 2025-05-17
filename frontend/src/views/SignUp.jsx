@@ -1,19 +1,24 @@
+import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserController from "../controllers/userController";
-const Login = () => {
+
+const SignUp = () => {
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
-  const handleLogin = async (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    await UserController.login(
+    await UserController.signUp(
+      name,
       email,
       password,
       () => {
         navigate("/tasks");
+        setName("");
         setEmail("");
         setPassword("");
       },
@@ -23,10 +28,16 @@ const Login = () => {
   return (
     <div className="flex flex-col items-center  bg-gray-400 h-screen w-full">
       <div className="mt-80 flex flex-col items-center bg-gray-200 p-10 rounded-lg shadow-md justify-center">
-        <form onSubmit={handleLogin} className="flex flex-col w-full">
-          <h1 className="text-5xl font-bold">Faça seu login</h1>
+        <form onSubmit={handleSignUp} className="flex flex-col w-full">
+          <h1 className="text-5xl font-bold">Faça seu cadastro</h1>
           <input
-            className="mt-10 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black"
+            className="mt-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+            placeholder="Nome"
+          />
+          <input
+            className="mt-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="Email"
@@ -41,19 +52,13 @@ const Login = () => {
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-5 hover:cursor-pointer"
             type="submit"
           >
-            Logar
+            Cadastrar
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </form>
-        <p className="mt-5 items-center">
-          Não tem uma conta?{" "}
-          <a href="/signup" className="text-blue-500">
-            Clique aqui
-          </a>
-        </p>
       </div>
     </div>
   );
 };
 
-export default Login;
+export default SignUp;

@@ -21,6 +21,7 @@ class TaskService {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ title }),
+        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -37,6 +38,7 @@ class TaskService {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ done }),
+        credentials: "include",
       });
       const data = await res.json();
       if (!res.ok) {
@@ -51,6 +53,7 @@ class TaskService {
     try {
       const res = await fetch(`${this.BASE_URL}/${id}`, {
         method: "DELETE",
+        credentials: "include",
       });
       if (!res.ok) {
         throw new Error("Deu erro ao apagar o arquivo");

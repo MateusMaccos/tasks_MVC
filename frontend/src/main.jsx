@@ -8,6 +8,7 @@ import {
 } from "react-router-dom";
 import Login from "./views/Login.jsx";
 import { AuthProvider } from "./context/auth.jsx";
+import SignUp from "./views/SignUp.jsx";
 
 const isLogged = JSON.parse(localStorage.getItem("keepLogged"));
 
@@ -19,6 +20,10 @@ const router = createBrowserRouter([
   {
     path: "/",
     element: <Login />,
+  },
+  {
+    path: "/signup",
+    element: <SignUp />,
   },
 ]);
 

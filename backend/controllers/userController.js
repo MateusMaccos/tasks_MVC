@@ -33,11 +33,20 @@ class userController {
     const id = user.id;
     const token = generateToken(id);
 
+    res.cookie("token", token, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 3600000,
+    });
+
     res.status(201).json({
-      id: user.id,
-      name: user.name,
-      email: user.email,
-      token,
+      message: "Cadastro bem-sucedido",
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+      },
     });
   }
 
@@ -63,8 +72,8 @@ class userController {
 
     res.cookie("token", token, {
       httpOnly: true,
-      sameSite: "None", // Necessário para cross-origin
-      secure: true, // Obrigatório com SameSite=None (use HTTPS ou 127.0.0.1 em dev)
+      sameSite: "None",
+      secure: true,
       maxAge: 3600000,
     });
 

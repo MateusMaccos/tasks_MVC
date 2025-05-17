@@ -2,21 +2,25 @@ import TaskModel from "../models/taskModel.js";
 
 class TaskController {
   async getAll(req, res) {
-    const tasks = await TaskModel.getAll();
+    const userId = req.userId;
+    const tasks = await TaskModel.getAll(userId);
     res.json(tasks);
   }
 
   async create(req, res) {
     const { title } = req.body;
+    const userId = req.userId;
     if (!title)
       return res.status(400).send({ message: "O título é obrigatorio" });
-    const task = await TaskModel.create(title);
+    if (!userId)
+      return res.status(400).send({ message: "O usuário não foi informado" });
+    const task = await TaskModel.create(title, userId);
     res.status(201).json(task);
   }
 
   async update(req, res) {
     const { done } = req.body;
-    const task = await TaskModel.update(req.params.id, done);
+    const task = await TaskModel.update(req.params.id, done, req.userId);
     task
       ? res.json(task)
       : res.status(404).json({ message: "Tarefa não encontrada" });

@@ -1,21 +1,25 @@
 import prisma from "../prismaClient.js";
 
 class TaskModel {
-  async getAll() {
-    return await prisma.task.findMany({ orderBy: { id: "asc" } });
+  async getAll(userId) {
+    return await prisma.task.findMany({
+      orderBy: { id: "asc" },
+      where: { user: { id: parseInt(userId) } },
+    });
   }
 
-  async create(title) {
+  async create(title, userId) {
     return await prisma.task.create({
       data: {
         title,
         done: false,
+        user: { connect: { id: parseInt(userId) } },
       },
     });
   }
-  async update(id, done) {
+  async update(id, done, userId) {
     return await prisma.task.update({
-      where: { id: parseInt(id) },
+      where: { id: parseInt(id), user: { id: parseInt(userId) } },
       data: { done },
     });
   }
