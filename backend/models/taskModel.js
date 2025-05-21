@@ -12,15 +12,15 @@ class TaskModel {
     return await prisma.task.create({
       data: {
         title,
-        done: false,
+        status: "PENDING",
         user: { connect: { id: parseInt(userId) } },
       },
     });
   }
-  async update(id, done, userId) {
+  async update(id, status, userId) {
     return await prisma.task.update({
       where: { id: parseInt(id), user: { id: parseInt(userId) } },
-      data: { done },
+      data: { status },
     });
   }
   async delete(id) {

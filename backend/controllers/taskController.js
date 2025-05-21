@@ -19,10 +19,10 @@ class TaskController {
   }
 
   async update(req, res) {
-    const { done } = req.body;
-    const task = await TaskModel.update(req.params.id, done, req.userId);
+    const { status } = req.body;
+    const task = await TaskModel.update(req.params.id, status, req.userId);
     task
-      ? res.json(task)
+      ? res.status(200).json(task)
       : res.status(404).json({ message: "Tarefa não encontrada" });
   }
   async delete(req, res) {

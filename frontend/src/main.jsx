@@ -9,13 +9,16 @@ import {
 import Login from "./views/Login.jsx";
 import { AuthProvider } from "./context/auth.jsx";
 import SignUp from "./views/SignUp.jsx";
-
-const isLogged = JSON.parse(localStorage.getItem("keepLogged"));
+import ProtectedRoute from "./protected_route/protectedRoute.jsx";
 
 const router = createBrowserRouter([
   {
     path: "/tasks",
-    element: isLogged ? <TaskScreen /> : <Navigate to="/" />,
+    element: (
+      <ProtectedRoute>
+        <TaskScreen />
+      </ProtectedRoute>
+    ),
   },
   {
     path: "/",

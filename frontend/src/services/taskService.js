@@ -32,18 +32,20 @@ class TaskService {
     }
   };
 
-  static updateTask = async (id, done) => {
+  static updateTask = async (id, status) => {
     try {
       const res = await fetch(`${this.BASE_URL}/${id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ done }),
+        body: JSON.stringify({ status }),
         credentials: "include",
       });
       const data = await res.json();
+
       if (!res.ok) {
         throw new Error(data.message);
       }
+      return data;
     } catch (e) {
       throw new Error(e.message || "Erro ao atualizar tarefa");
     }

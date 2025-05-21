@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import TaskController from "../controllers/taskController";
+import { SlArrowRight, SlArrowLeft } from "react-icons/sl";
 
 function TaskList() {
   const [tasks, setTasks] = useState([]);
   const [error, setError] = useState("");
 
-  const reload = () => TaskController.loadTasks(setTasks, onError);
+  const reload = () => {
+    TaskController.loadTasks(setTasks, onError);
+  };
 
   const onError = (err) => setError(err);
 
@@ -19,23 +22,48 @@ function TaskList() {
     ) : (
       <ul className="w-full">
         {tasks.map((task) => (
-          <li key={task.id} className="flex items-center">
-            <label>
-              <input
-                className="mr-5"
-                type="checkbox"
-                checked={task.done}
-                onChange={() =>
-                  TaskController.handleToggleTask(
+          <li key={task.id} className="flex items-center mt-2.5">
+            {task.status === TaskController.Status.PENDING ? null : (
+              <SlArrowLeft
+                onClick={() =>
+                  TaskController.handleRegressTask(
                     task.id,
-                    task.done,
+                    task.status,
                     reload,
                     onError
                   )
                 }
+                style={{ cursor: "pointer", color: "gray" }}
               />
-            </label>
-            <span className={task.done ? "line-through" : ""}>
+            )}
+            <span
+              className={
+                "mr-5 ml-5 font-bold " +
+                TaskController.status_color[task.status]
+              }
+            >
+              {TaskController.statusTranslate(task.status)}
+            </span>
+            {task.status === TaskController.Status.DONE ? null : (
+              <SlArrowRight
+                onClick={() =>
+                  TaskController.handleAdvanceTask(
+                    task.id,
+                    task.status,
+                    reload,
+                    onError
+                  )
+                }
+                style={{ cursor: "pointer", color: "gray" }}
+              />
+            )}
+            <span
+              className={
+                task.status === TaskController.Status.DONE
+                  ? "line-through"
+                  : "" + "mr-2.5 ml-2.5"
+              }
+            >
               {task.title}
             </span>
             <svg
