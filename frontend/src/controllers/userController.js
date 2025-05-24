@@ -29,6 +29,27 @@ class UserController {
       onError(e.message || "Erro inesperado");
     }
   };
+
+  static verifyToken = async (onSuccess, onError) => {
+    try {
+      const userLogged = await UserService.verifyToken();
+      onSuccess(userLogged);
+    } catch (e) {
+      console.log(e);
+      localStorage.clear();
+      onError();
+    }
+  };
+
+  static getPhotoUrl = (imagePath, onError) => {
+    try {
+      const photoUrl = UserService.getPhotoUrl(imagePath);
+      console.log(photoUrl);
+      return photoUrl;
+    } catch (e) {
+      onError(`Erro inesperado ao carregar foto: ${e}`);
+    }
+  };
 }
 
 export default UserController;

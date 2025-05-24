@@ -56,6 +56,12 @@ const SignUp = () => {
           </button>
           {error && <p className="text-red-500">{error}</p>}
         </form>
+        <p className="mt-5 items-center">
+          Já tem uma conta?{" "}
+          <a href="/" className="text-blue-500">
+            Clique aqui
+          </a>
+        </p>
       </div>
     </div>
   );

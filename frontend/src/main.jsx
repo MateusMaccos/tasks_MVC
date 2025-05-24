@@ -7,7 +7,7 @@ import {
   RouterProvider,
 } from "react-router-dom";
 import Login from "./views/Login.jsx";
-import { AuthProvider } from "./context/auth.jsx";
+import AuthProvider from "./context/AuthProvider.jsx";
 import SignUp from "./views/SignUp.jsx";
 import ProtectedRoute from "./protected_route/protectedRoute.jsx";
 

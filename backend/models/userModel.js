@@ -9,6 +9,13 @@ class UserModel {
     return await prisma.user.create({ data: { name, email, password } });
   }
 
+  async update(id, data) {
+    return await prisma.user.update({
+      where: { id: parseInt(id) },
+      data: data,
+    });
+  }
+
   async delete(id) {
     await prisma.user.delete({ where: { id: parseInt(id) } });
   }

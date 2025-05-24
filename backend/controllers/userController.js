@@ -26,10 +26,12 @@ class userController {
     }
     if (await UserModel.exists(email))
       return res.status(400).send({ message: "Email ja cadastrado" });
+
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
 
     const user = await UserModel.create(name, email, hashedPassword);
+
     const id = user.id;
     const token = generateToken(id);
 
@@ -110,6 +112,7 @@ class userController {
           id: user.id,
           name: user.name,
           email: user.email,
+          imagePath: user.imagePath,
         },
       });
     } catch (err) {
@@ -125,6 +128,17 @@ class userController {
     if (!user)
       return res.status(404).json({ message: `Usuário nao encontrado: ${id}` });
     return res.status(200).json(user);
+  }
+
+  async uploadPhoto(req, res) {
+    const userId = req.params.userId;
+    const imagePath = `/uploads/${req.file.filename}`;
+
+    await UserModel.update(userId, { imagePath });
+
+    res
+      .status(200)
+      .json({ message: `Foto atualizada com sucesso em: ${imagePath}` });
   }
 }
 
