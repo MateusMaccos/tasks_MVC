@@ -20,9 +20,10 @@ class UserService {
   //     throw new Error(e.message || "Erro ao criar usuário");
   //   }
   // };
-  static signUp = async (name, email, password) => {
+  static signUp = async (name, email, password, formdata) => {
+    console.log(formdata);
     try {
-      const res = await axios.post(
+      const user = await axios.post(
         this.BASE_URL,
         {
           name,
@@ -36,9 +37,32 @@ class UserService {
           },
         }
       );
-      return res.data;
+      if (!formdata) return;
+      console.log(user.data.user.id);
+      const res = await this.uploadImage(user.data.user.id, formdata);
+      console.log(res);
     } catch (e) {
       throw new Error(e.response?.data?.message || "Erro ao criar usuário");
+    }
+  };
+
+  static uploadImage = async (userId, formdata) => {
+    try {
+      const res = await axios.post(
+        `${this.BASE_URL}/upload/${userId}`,
+        formdata,
+        {
+          withCredentials: true,
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      return res.data;
+    } catch (e) {
+      throw new Error(
+        e.response?.data?.message || "Erro ao fazer upload da imagem"
+      );
     }
   };
 

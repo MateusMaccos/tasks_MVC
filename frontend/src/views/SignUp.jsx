@@ -2,20 +2,30 @@ import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import UserController from "../controllers/userController";
-
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
+  const [image, setImage] = useState("");
+
   const navigate = useNavigate();
+  const handleImage = async (e) => {
+    setImage(e.target.files[0]);
+  };
 
   const handleSignUp = async (e) => {
     e.preventDefault();
+    var formData;
+    if (image) {
+      formData = new FormData();
+      formData.append("file", image);
+    }
     await UserController.signUp(
       name,
       email,
       password,
+      formData,
       () => {
         navigate("/tasks");
         setName("");
@@ -30,6 +40,15 @@ const SignUp = () => {
       <div className="mt-80 flex flex-col items-center bg-gray-200 p-10 rounded-lg shadow-md justify-center">
         <form onSubmit={handleSignUp} className="flex flex-col w-full">
           <h1 className="text-5xl font-bold">Faça seu cadastro</h1>
+          <div className="mt-5 ">
+            <input
+              className=" bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black cursor-pointer"
+              type="file"
+              name="file"
+              accept="image/*"
+              onChange={handleImage}
+            />
+          </div>
           <input
             className="mt-5 bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg p-2.5  dark:border-gray-600 dark:placeholder-gray-400 dark:text-black"
             value={name}

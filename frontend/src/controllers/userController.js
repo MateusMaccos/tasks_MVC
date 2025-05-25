@@ -10,9 +10,16 @@ class UserController {
     }
   };
 
-  static signUp = async (name, email, password, onSuccess, onError) => {
+  static signUp = async (
+    name,
+    email,
+    password,
+    formdata,
+    onSuccess,
+    onError
+  ) => {
     try {
-      await UserService.signUp(name, email, password);
+      await UserService.signUp(name, email, password, formdata);
       localStorage.setItem("keepLogged", JSON.stringify(true));
       onSuccess();
     } catch (e) {
