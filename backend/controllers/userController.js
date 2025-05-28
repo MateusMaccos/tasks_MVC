@@ -25,7 +25,7 @@ class userController {
         .send({ message: "O nome, email e senha são obrigatórios" });
     }
     if (await UserModel.exists(email))
-      return res.status(400).send({ message: "Email ja cadastrado" });
+      return res.status(409).send({ message: "Email ja cadastrado" });
 
     const salt = await bcrypt.genSalt(10);
     const hashedPassword = await bcrypt.hash(password, salt);
@@ -133,7 +133,7 @@ class userController {
   async uploadPhoto(req, res) {
     const userId = req.params.userId;
     const imagePath = `/uploads/${req.file.filename}`;
-
+    console.log(imagePath);
     await UserModel.update(userId, { imagePath });
 
     res

@@ -110,9 +110,13 @@ class TaskService {
   // };
   static deleteTask = async (id) => {
     try {
-      await axios.delete(`${this.BASE_URL}/${id}`, {
-        withCredentials: true,
-      });
+      await axios.delete(
+        `${this.BASE_URL}/${id}`,
+        {},
+        {
+          withCredentials: true,
+        }
+      );
     } catch (e) {
       throw new Error(e.response?.data?.message || "Erro ao deletar tarefa");
     }
