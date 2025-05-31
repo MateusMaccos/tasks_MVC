@@ -4,7 +4,7 @@ class TaskController {
   async getAll(req, res) {
     const userId = req.userId;
     const tasks = await TaskModel.getAll(userId);
-    res.json(tasks);
+    res.status(200).json(tasks);
   }
 
   async create(req, res) {

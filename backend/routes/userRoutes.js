@@ -101,6 +101,7 @@ router.post("/", UserController.create);
  *         description: Usuário deletado com sucesso
  */
 router.delete("/:id", UserController.delete);
+
 router.get("/check-auth", UserController.checkAuth);
 /**
  * @swagger
@@ -133,12 +134,15 @@ router.get("/check-auth", UserController.checkAuth);
  *         description: O email e senha são obrigatórios
  */
 router.post("/login", UserController.login);
+
 router.post("/logout", verifyToken, UserController.logout);
+
 router.post(
   "/upload/:userId",
   upload.single("file"),
   UserController.uploadPhoto
 );
+
 router.use("/uploads", express.static("uploads"));
 
 export default router;

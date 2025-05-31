@@ -1,13 +1,15 @@
-import React from "react";
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserController from "../controllers/userController";
+import AuthContext from "../context/AuthContext";
 const SignUp = () => {
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [image, setImage] = useState("");
+
+  const { setUser } = useContext(AuthContext);
 
   const navigate = useNavigate();
   const handleImage = async (e) => {
@@ -26,7 +28,8 @@ const SignUp = () => {
       email,
       password,
       formData,
-      () => {
+      (user) => {
+        setUser(user);
         navigate("/tasks");
         setName("");
         setEmail("");

@@ -1,18 +1,23 @@
-import { useState } from "react";
+import { useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import UserController from "../controllers/userController";
+import AuthContext from "../context/AuthContext";
+
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const navigate = useNavigate();
 
+  const { setUser } = useContext(AuthContext);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     await UserController.login(
       email,
       password,
-      () => {
+      (user) => {
+        setUser(user);
         navigate("/tasks");
         setEmail("");
         setPassword("");

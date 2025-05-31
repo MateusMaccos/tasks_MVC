@@ -2,9 +2,9 @@ import UserService from "../services/userService.js";
 class UserController {
   static login = async (email, password, onSuccess, onError) => {
     try {
-      await UserService.login(email, password);
+      const user = await UserService.login(email, password);
       localStorage.setItem("keepLogged", JSON.stringify(true));
-      onSuccess();
+      onSuccess(user);
     } catch (e) {
       onError(e.message || "Erro inesperado");
     }
@@ -19,9 +19,9 @@ class UserController {
     onError
   ) => {
     try {
-      await UserService.signUp(name, email, password, formdata);
+      const user = await UserService.signUp(name, email, password, formdata);
       localStorage.setItem("keepLogged", JSON.stringify(true));
-      onSuccess();
+      onSuccess(user);
     } catch (e) {
       onError(e.message || "Erro inesperado");
     }

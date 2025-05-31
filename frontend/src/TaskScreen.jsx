@@ -11,9 +11,9 @@ function TaskScreen() {
   const [photoUrl, setPhotoUrl] = useState("");
 
   useEffect(() => {
-    if (user?.imagePath) {
+    if (!user) return;
+    if (user.imagePath) {
       const url = UserController.getPhotoUrl(user.imagePath);
-      console.log(url);
       setPhotoUrl(url);
     }
   }, [user]);

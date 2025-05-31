@@ -17,7 +17,7 @@ class UserModel {
   }
 
   async delete(id) {
-    await prisma.user.delete({ where: { id: parseInt(id) } });
+    return await prisma.user.delete({ where: { id: parseInt(id) } });
   }
 
   async exists(email) {

@@ -13,7 +13,12 @@ class userController {
   }
 
   async delete(req, res) {
-    await UserModel.delete(req.params.id);
+    console.log(req.params.id);
+    if (!req.params.id)
+      return res.status(400).json({ message: "Id obrigatorio" });
+    const resDelete = await UserModel.delete(req.params.id);
+    if (!resDelete)
+      return res.status(404).json({ message: "Usuário nao encontrado" });
     res.sendStatus(204);
   }
 
@@ -59,7 +64,6 @@ class userController {
         .status(400)
         .send({ message: "O email e senha são obrigatórios" });
     }
-    console.log(email, password);
     const user = await UserModel.exists(email);
     if (!user)
       return res.status(400).send({ message: "Email ou senha incorretos" });
@@ -85,6 +89,7 @@ class userController {
         id: user.id,
         name: user.name,
         email: user.email,
+        imagePath: user.imagePath,
       },
     });
   }
@@ -133,12 +138,12 @@ class userController {
   async uploadPhoto(req, res) {
     const userId = req.params.userId;
     const imagePath = `/uploads/${req.file.filename}`;
-    console.log(imagePath);
     await UserModel.update(userId, { imagePath });
 
-    res
-      .status(200)
-      .json({ message: `Foto atualizada com sucesso em: ${imagePath}` });
+    res.status(200).json({
+      message: `Foto atualizada com sucesso em: ${imagePath}`,
+      imagePath,
+    });
   }
 }
 
